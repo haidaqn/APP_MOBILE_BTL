@@ -109,7 +109,9 @@ export function HeaderAdmin() {
                         <AccessTimeOutlined htmlColor="black" />
                     </IconButton>
                 </Tooltip>
-                <Avatar onClick={() => handleLogout()} src={avtDefault} className="ml-3" sx={{ borderRadius: '6px', cursor: 'pointer' }} />
+                <Tooltip title="Đăng xuất">
+                    <Avatar onClick={() => handleLogout()} src={avtDefault} className="ml-3" sx={{ borderRadius: '6px', cursor: 'pointer' }} />
+                </Tooltip>
             </Stack>
         </Stack>
     );

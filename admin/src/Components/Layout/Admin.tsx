@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import logo from '../../assets/data-analysis.svg';
 import { HeaderAdmin } from '../Common/HeaderAdmin';
-
 import { Customer, InvoicePaging, Products } from '../../features/admin';
+import NewProduct from '../../features/admin/Components/newProduct';
+import UpdateProduct from '../../features/admin/Components/updateProduct';
 
 const WelComeAdmin = () => {
     return (
@@ -34,6 +35,8 @@ export default function Admin() {
                     <Route path="/customer" element={<Customer />} />
                     <Route path="/invoice" element={<InvoicePaging />} />
                     <Route path="/products" element={<Products />} />
+                    <Route path="/new/product" element={<NewProduct />} />
+                    <Route path="/update/product/:productId" element={<UpdateProduct />} />
                 </Routes>
             </Box>
         </Box>

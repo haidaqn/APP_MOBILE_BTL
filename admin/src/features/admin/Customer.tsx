@@ -1,5 +1,5 @@
 import { Delete, Settings } from '@mui/icons-material';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { MaterialReactTable, type MRT_ColumnDef, type MRT_ColumnFiltersState, type MRT_PaginationState, type MRT_SortingState } from 'material-react-table';
 import { useSnackbar } from 'notistack';
 import queryString from 'query-string';
@@ -10,11 +10,81 @@ import adminApi from '../../apis/adminApi';
 import { RootUser, User } from '../../models';
 import SettingMenu from './Components/SettingMenu';
 
+interface CustomDialogProps {
+    open: boolean;
+    setOpen: (value: boolean) => void;
+    valueSelect: string;
+    userSelect: User | null;
+    setUserSelect: (value: User | null) => void;
+    setIsUpdate: (value: boolean) => void;
+}
+
+const CustomDialog: React.FC<CustomDialogProps> = ({ open, setOpen, valueSelect, userSelect, setUserSelect, setIsUpdate }) => {
+    const handleClose = () => {
+        setOpen(false);
+        setUserSelect(null);
+    };
+    const { enqueueSnackbar } = useSnackbar();
+    const [selectedOption, setSelectedOption] = useState<string>(valueSelect);
+    const handleSelectChange = (value: string) => {
+        setSelectedOption(value);
+    };
+
+    const handleUpdateUser = async () => {
+        if (userSelect) {
+            if (selectedOption === '2' && userSelect.isBlocked === false) {
+                await adminApi.updateIsBlockUser(true, userSelect._id);
+                setIsUpdate(true);
+                enqueueSnackbar('Cập nhật thành công', { variant: 'success' });
+            }
+            if (selectedOption === '1' && userSelect.isBlocked === true) {
+                await adminApi.updateIsBlockUser(false, userSelect._id);
+                setIsUpdate(true);
+                enqueueSnackbar('Cập nhật thành công', { variant: 'success' });
+            }
+            if ((selectedOption === '1' && userSelect.isBlocked === false) || (selectedOption === '2' && userSelect.isBlocked === true)) {
+                enqueueSnackbar('Cập nhật không thành công', { variant: 'error' });
+            }
+            handleClose();
+        }
+    };
+
+    return (
+        <Dialog open={open} onClose={handleClose} className="">
+            <DialogTitle className="w-[500px]">Thay đổi trạng thái của {userSelect?.name}</DialogTitle>
+            <DialogContent className="my-2">
+                <Select
+                    className="w-full"
+                    labelId="status-label"
+                    id="status-select"
+                    value={selectedOption}
+                    onChange={(e) => handleSelectChange(e.target.value)}
+                >
+                    <MenuItem value="1">Bình thường</MenuItem>
+                    <MenuItem value="2">Khóa</MenuItem>
+                </Select>
+            </DialogContent>
+            <DialogActions style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: '20px', paddingRight: '20px' }}>
+                <Button onClick={handleClose} color="primary">
+                    Close
+                </Button>
+                <Button onClick={handleUpdateUser} color="primary">
+                    Cập nhật
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
 export const Customer = () => {
     const location = useLocation();
     const queryParams = queryString.parse(location.search);
     const navigate = useNavigate();
     const [data, setData] = useState<User[]>([]);
+    const [cusId, setCusId] = useState<string>('');
+    const [isUpdate, setIsUpdate] = useState<boolean>(false);
+    const [userSelect, setUserSelect] = useState<User | null>(null);
+    const [opentDialog, setOpenDialog] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [isRefetching, setIsRefetching] = useState(false);
@@ -34,7 +104,7 @@ export const Customer = () => {
         setOpen((prevOpen) => !prevOpen);
     };
     const handleSelectRows = (row: any) => {
-        console.log(row);
+        // console.log(row);
         const idData = row.map((item: any) => item.original.id);
         (async () => {
             try {
@@ -73,13 +143,13 @@ export const Customer = () => {
                 console.error(error);
                 return;
             }
-
+            setIsUpdate(false);
             setIsError(false);
             setIsLoading(false);
             setIsRefetching(false);
         };
         fetchData();
-    }, [columnFilters, globalFilter, isDel, pagination.pageIndex, pagination.pageSize, sorting]);
+    }, [columnFilters, globalFilter, isDel, pagination.pageIndex, pagination.pageSize, sorting, isUpdate]);
     const columns = useMemo<MRT_ColumnDef<User>[]>(
         () => [
             { accessorKey: 'name', header: 'Tên người dùng' },
@@ -97,20 +167,31 @@ export const Customer = () => {
         ],
         []
     );
-
+    console.log(userSelect);
     return (
         <Box sx={{ height: '100%' }}>
             <SettingMenu anchorRef={settingRef} open={open} setOpen={setOpen} />
+            <CustomDialog
+                open={opentDialog}
+                setOpen={setOpenDialog}
+                valueSelect={userSelect?.isBlocked === true ? '2' : '1'}
+                userSelect={userSelect}
+                setUserSelect={setUserSelect}
+                setIsUpdate={setIsUpdate}
+            />
             <MaterialReactTable
                 muiTablePaperProps={{ sx: { height: '100%' } }}
                 muiTableContainerProps={{ sx: { height: 'calc(100% - 112px)' } }}
                 columns={columns}
                 data={data}
-                enableRowSelection
+                // enableRowSelection
                 manualFiltering
                 manualPagination
                 muiTableBodyRowProps={({ row }) => ({
-                    onClick: () => {},
+                    onClick: () => {
+                        setUserSelect(row.original);
+                        setOpenDialog(true);
+                    },
                     sx: { cursor: 'pointer' }
                 })}
                 manualSorting

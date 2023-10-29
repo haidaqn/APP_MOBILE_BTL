@@ -72,7 +72,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
     // +"2" -> 2
     //+"asdasaaaa" -> NaN
-    const page = +req?.query?.page || 1; // lay tu req la string -> convert qua int
+    const page = +req?.query?.page + 1 || 1; // lay tu req la string -> convert qua int
     const limit = +req?.query?.limit || process.env.LIMIT_PRODUCTS;
     const skip = (page - 1) * limit;
     queriesCommand.skip(skip).limit(limit);

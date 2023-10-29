@@ -1,5 +1,5 @@
 import { Delete, Settings } from '@mui/icons-material';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
 import { MaterialReactTable, type MRT_ColumnDef, type MRT_ColumnFiltersState, type MRT_PaginationState, type MRT_SortingState } from 'material-react-table';
 import { useSnackbar } from 'notistack';
 import queryString from 'query-string';
@@ -35,11 +35,10 @@ export const Products = () => {
         setOpen((prevOpen) => !prevOpen);
     };
     const handleSelectRows = (row: any) => {
-        console.log(row);
-        const idData = row.map((item: any) => item.original.id);
+        const idData = row.map((item: any) => item.original._id);
         (async () => {
             try {
-                // await adminApi.deleteFood(idData);
+                await adminApi.deleteProduct(idData);
                 enqueueSnackbar('Xóa thành công', { variant: 'success' });
                 setIsDel((item) => !item);
             } catch (error) {
@@ -83,12 +82,10 @@ export const Products = () => {
     const columns = useMemo<MRT_ColumnDef<Product>[]>(
         () => [
             { accessorKey: 'title', header: 'Tên sản phẩm' },
-            { accessorKey: 'price', header: 'Giá sản phẩm',
-                Cell: ({ cell }) => formatCurrencyVND(cell.getValue<string>()),
-        },
+            { accessorKey: 'price', header: 'Giá sản phẩm', Cell: ({ cell }) => formatCurrencyVND(cell.getValue<string>()) },
             { accessorKey: 'category', header: 'Loại sản phẩm' },
             { accessorKey: 'sold', header: 'Số lượng đã bán' },
-            { accessorKey: 'quantity', header: 'Số lượng còn lại' },
+            { accessorKey: 'quantity', header: 'Số lượng còn lại' }
         ],
         []
     );
@@ -105,7 +102,9 @@ export const Products = () => {
                 manualFiltering
                 manualPagination
                 muiTableBodyRowProps={({ row }) => ({
-                    onClick: () => {},
+                    onClick: () => {
+                        navigate(`/admin/update/product/${row.original._id}`);
+                    },
                     sx: { cursor: 'pointer' }
                 })}
                 manualSorting
@@ -125,7 +124,17 @@ export const Products = () => {
                 })}
                 renderTopToolbarCustomActions={({ table }) => (
                     <Stack direction="row" alignItems="center">
-                        <Typography sx={{ fontSize: '18px', fontWeight: 500, mr: '10px' }}>Người Dùng</Typography>
+                        <Button
+                            disabled={isLoading}
+                            sx={{ mr: '10px' }}
+                            variant="contained"
+                            onClick={() => {
+                                navigate('/admin/new/product');
+                            }}
+                        >
+                            Tạo
+                        </Button>
+                        <Typography sx={{ fontSize: '18px', fontWeight: 500, mr: '10px' }}>Sản phẩm</Typography>
                         <IconButton ref={settingRef} onClick={handleToggle} size="small" sx={{ mr: '5px' }}>
                             <Settings htmlColor="black" fontSize="small" />
                         </IconButton>

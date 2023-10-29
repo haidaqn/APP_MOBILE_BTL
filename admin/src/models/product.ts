@@ -32,3 +32,13 @@ export interface RootProduct {
     products: Product[];
     success: boolean;
 }
+
+export interface CreateProduct {
+  title: string
+  price: string
+  description: string
+  brand: string
+  category: string
+  color: string
+  images: string[]
+}
