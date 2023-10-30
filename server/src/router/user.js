@@ -9,15 +9,11 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/current', verifyAccessToken, userController.getCurrent); //
-
 //
-
 router.put('/cart/delete', verifyAccessToken, userController.deleteCart);
 router.get('/cart/getAll', verifyAccessToken, userController.getCart);
 router.put('/cart', verifyAccessToken, userController.updateCart);
-
 //
-
 router.put('/current', verifyAccessToken, adminController.updateUser); //
 router.put('/current/update-address', verifyAccessToken, userController.updateAddress); //
 

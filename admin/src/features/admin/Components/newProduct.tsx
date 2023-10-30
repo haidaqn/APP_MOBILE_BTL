@@ -18,7 +18,7 @@ const NewProduct = () => {
         description: '',
         brand: '',
         category: '',
-        color: ''
+        quantity: 0
     });
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
@@ -50,8 +50,8 @@ const NewProduct = () => {
 
     const handleProductCreate = async () => {
         try {
-            const { title, price, description, brand, category, color } = productData;
-            if (!(title && price && description && brand && category && color)) {
+            const { title, price, description, brand, category, quantity } = productData;
+            if (!(title && price && description && brand && category && quantity)) {
                 throw new Error('Missing input...');
             }
             const data = { ...productData, images: [...images] };
@@ -60,7 +60,7 @@ const NewProduct = () => {
             description: '',
             brand: '',
             category: '',
-            color: ''})
+            quantity: 0})
             setImages([])
             await adminApi.createProduct(data);
             navigate('/admin/products')
@@ -72,8 +72,8 @@ const NewProduct = () => {
 
     return (
         <Box sx={{ height: '100%' }}>
-            {/* <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
-                <CircularProgress color="inherit" />
+            {/* <Backdrop sx={{ quantity: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress quantity="inherit" />
             </Backdrop> */}
             <Box>
                 <Stack
@@ -155,11 +155,11 @@ const NewProduct = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        label="Color"
+                                        label="Số lượng"
                                         variant="outlined"
                                         fullWidth
-                                        value={productData.color}
-                                        onChange={(e) => setProductData({ ...productData, color: e.target.value })}
+                                        value={productData.quantity}
+                                        onChange={(e) => setProductData({ ...productData, quantity: +e.target.value })}
                                     />
                                 </Grid>
                             </Grid>

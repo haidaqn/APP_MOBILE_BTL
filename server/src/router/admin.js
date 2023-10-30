@@ -15,6 +15,8 @@ router.post('/update-order/:orderId',[verifyAccessToken, isAdmin],adminControlle
 router.post('/update-user/:idUser',[verifyAccessToken, isAdmin],adminController.updateUserIsBlocked)
 router.post('/create-product',[verifyAccessToken, isAdmin],adminController.createProductbyAdmin)
 router.delete('/delete-products',[verifyAccessToken, isAdmin],adminController.deleteProducts)
+router.delete('/delete-user',[verifyAccessToken, isAdmin],adminController.deleteUsers)
+router.post('/update-products/:pid',[verifyAccessToken, isAdmin],productController.updateProduct)
 
 //
 module.exports = router;

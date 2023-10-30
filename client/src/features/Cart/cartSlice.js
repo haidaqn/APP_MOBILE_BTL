@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 
 const ItemCart = {
@@ -9,12 +9,10 @@ const ItemCart = {
     image: PropTypes.string.isRequired,
     type: PropTypes.bool.isRequired
 };
-
 const initialState = {
     dataStore: [ItemCart],
     totalPrice: PropTypes.number
 };
-
 const CartSlice = createSlice({
     name: 'cart',
     initialState,

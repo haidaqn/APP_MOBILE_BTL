@@ -12,31 +12,30 @@ import RegisterPage from '../auth/pages/RegisterPage';
 import PostInfo from '../Post/Components/PostInfo';
 import ListProducts from '../productList/index';
 import EditProfile from '../Profile/EditProfile';
+import ProductItem from '../Profile/Components/ProductItem';
 
 export default function Main() {
     const dispatch = useDispatch();
 
     const Stack = createStackNavigator();
-
+    const fetchData = async () => {
+        try {
+            const [smart, accessories, laptop, tablet] = await Promise.all([
+                productApi.getProductSmart(),
+                productApi.getProductAccessories(),
+                productApi.getProductLaptop(),
+                productApi.getProductTablet()
+            ]);
+            dispatch(setAccessories(accessories));
+            dispatch(setLaptop(laptop));
+            dispatch(setSmartPhone(smart));
+            dispatch(setTablet(tablet));
+        } catch (err) {
+            console.error(err);
+        }
+    };
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [smart, accessories, laptop, tablet] = await Promise.all([
-                    productApi.getProductSmart(),
-                    productApi.getProductAccessories(),
-                    productApi.getProductLaptop(),
-                    productApi.getProductTablet()
-                ]);
-                // console.log(smart, accessories, laptop, tablet);
-                dispatch(setAccessories(accessories));
-                dispatch(setLaptop(laptop));
-                dispatch(setSmartPhone(smart));
-                dispatch(setTablet(tablet));
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
+        
         fetchData();
     }, []);
     return (
@@ -54,6 +53,7 @@ export default function Main() {
                     <Stack.Screen name="Register" component={RegisterPage} />
                     <Stack.Screen name="Login" component={LoginPage} />
                     <Stack.Screen name="EditProfile" component={EditProfile} />
+                    <Stack.Screen name="ProductItem" component={ProductItem} />
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>

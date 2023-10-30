@@ -39,7 +39,7 @@ const updateStatus = asyncHandler(async (req, res) => {
         response: response ? response : 'No update status...'
     });
 });
-const productExclude = 'title images price totalRatings';
+const productExclude = 'title images price';
 const getOrderByUser = asyncHandler(async (req, res) => {
     const id = req.user.id;
     const response = await Order.find({ orderBy: id }).populate('products.product_id', productExclude);

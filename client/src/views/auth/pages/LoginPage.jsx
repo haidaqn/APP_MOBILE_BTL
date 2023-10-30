@@ -48,7 +48,7 @@ function LoginPage() {
         // });
         dispatch(authActions.login(data));
         // console.log(data);
-        // navigation.navigate('AppLayout');
+        navigation.navigate('AppLayout');
     };
     return (
         <SafeAreaView className="bg-white">

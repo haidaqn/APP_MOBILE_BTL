@@ -11,6 +11,7 @@ app.use(cookieParser());
 
 // Define an array of allowed origins
 const allowedOrigins = [
+    'http://192.168.247.1:3000',
     'http://localhost:8081',
     'http://localhost:8082',
     'http://localhost:19006',

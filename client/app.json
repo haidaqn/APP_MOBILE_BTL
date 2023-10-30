@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "client",
-    "slug": "client",
+    "slug": "haidang12",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,7 +29,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "bad07dd2-fa91-4277-887d-9f9fb3c6e9dd"
+        "projectId": "a2a3bd84-9955-4608-99f2-891f6dcec1ae"
       }
     },
     "runtimeVersion": {
@@ -37,6 +37,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/bad07dd2-fa91-4277-887d-9f9fb3c6e9dd"
-    }
+    },
+    "owner": "dang123xx"
   }
 }

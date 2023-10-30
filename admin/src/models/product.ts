@@ -11,6 +11,7 @@ export interface Product {
   sold: number
   images: string[]
   color: string
+  brand?:string
   totalRatings: number
   ratings: Rating[]
   createdAt: string
@@ -33,12 +34,18 @@ export interface RootProduct {
     success: boolean;
 }
 
+export interface RootProductGet {
+  success : boolean
+  product :Product
+}
+
+
 export interface CreateProduct {
   title: string
   price: string
   description: string
   brand: string
   category: string
-  color: string
+  quantity: number
   images: string[]
 }

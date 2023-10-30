@@ -104,11 +104,10 @@ export const Customer = () => {
         setOpen((prevOpen) => !prevOpen);
     };
     const handleSelectRows = (row: any) => {
-        // console.log(row);
-        const idData = row.map((item: any) => item.original.id);
+        const idData = row.map((item: any) => item.original._id);
         (async () => {
             try {
-                // await adminApi.deleteFood(idData);
+                await adminApi.deleteUser(idData);
                 enqueueSnackbar('Xóa thành công', { variant: 'success' });
                 setIsDel((item) => !item);
             } catch (error) {
@@ -184,7 +183,7 @@ export const Customer = () => {
                 muiTableContainerProps={{ sx: { height: 'calc(100% - 112px)' } }}
                 columns={columns}
                 data={data}
-                // enableRowSelection
+                enableRowSelection
                 manualFiltering
                 manualPagination
                 muiTableBodyRowProps={({ row }) => ({

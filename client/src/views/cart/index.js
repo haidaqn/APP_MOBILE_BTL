@@ -20,6 +20,7 @@ export default function Cart({ navigation }) {
 
     const fetchData = async (data) => {
         const response = await orderApi.createOrder(data);
+        console.log(response)
         if (response.success === true) {
             dispatch(cleanCart());
             setTimeout(() => {
@@ -28,7 +29,7 @@ export default function Cart({ navigation }) {
                     text1: 'Thành công',
                     text2: 'Đặt hàng thành công!'
                 });
-            }, 1000);
+            }, 500);
         } else {
             setTimeout(() => {
                 Toast.show({
@@ -36,7 +37,7 @@ export default function Cart({ navigation }) {
                     text1: 'Thất bại',
                     text2: 'Đặt hàng thất bại!'
                 });
-            }, 1000);
+            }, 500);
         }
     };
 
@@ -50,13 +51,13 @@ export default function Cart({ navigation }) {
             setTimeout(() => {
                 navigation.navigate('Login');
             }, 500);
-        } else if (currentUser.address === undefined) setModalVisible(true);
+        } else if (currentUser.address === undefined || currentUser.address === 'Chưa có địa chỉ' ) setModalVisible(true);
         else fetchData(dataStore);
     };
-
+    
     return (
         <View className="bg-white w-full h-full relative">
-            {dataStore.length ? (
+            {dataStore.length > 0 ? (
                 <ScrollView showsVerticalScrollIndicator={false} className="h-full">
                     <ModalCustom setModalVisible={setModalVisible} modalVisible={modalVisible} />
                     <View className="w-full flex-row py-2 justify-center items-center border-b">

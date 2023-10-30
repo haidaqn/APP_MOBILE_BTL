@@ -216,10 +216,10 @@ const createProductbyAdmin = asyncHandler(async (req, res) => {
         description,
         brand,
         category,
-        color,
+        quantity,
         images
     } = req.body;
-    if (!(title && price && description && brand && category && color)) throw new Error('Missing input...');
+    if (!(title && price && description && brand && category && quantity)) throw new Error('Missing input...');
     req.body.slug = slugify(title);
     req.body.thumb = images[0]
     const newProduct = await Product.create(req.body);
@@ -243,6 +243,20 @@ const deleteProducts = asyncHandler(async (req,res)=>{
     }
 })
 
+const deleteUsers = asyncHandler(async (req,res)=>{
+    try {
+        const userIds = req.body; 
+        const result = await User.deleteMany({ _id: { $in: userIds } });
+        if (result.deletedCount > 0) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false});
+        }
+    } catch (error) {
+        res.status(500).json({ success: false});
+    }
+})
+
 //
 module.exports = {
     getUser,
@@ -253,5 +267,6 @@ module.exports = {
     login,
     updateUserIsBlocked,
     updateOrderStatus,
-    deleteProducts
+    deleteProducts,
+    deleteUsers
 };

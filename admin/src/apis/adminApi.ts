@@ -34,6 +34,18 @@ const adminApi = {
     deleteProduct(data: string[]) {
         const url = 'admin/delete-products';
         return axiosClient.delete(url, { data: data });
+    },
+    deleteUser(data:string[]) {
+        const url = 'admin/delete-user';
+        return axiosClient.delete(url, { data: data });
+    },
+    getProduct(id:string){
+        const url = `product/${id}`
+        return axiosClient.get(url)
+    },
+    upDateProduct(pid:string,data: CreateProduct){
+        const url = `admin/update-products/${pid}`
+        return axiosClient.post(url,data)
     }
 };
 

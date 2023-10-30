@@ -34,8 +34,9 @@ const login = asyncHandler(async (req, res) => {
         });
     }
     const response = await User.findOne({ email }); // Instance được trả về khi dùng hàm của mongodb
-    if (response && (await response.isCorrectPassWord(password))) {
-        const { password, refreshToken, role, ...userData } = response.toObject();
+    if (response && (await response.isCorrectPassWord(password)) ) {
+        const { password, refreshToken,isBlocked, role, ...userData } = response.toObject();
+        if(isBlocked) throw new Error('invalid credentials !');
         const userId = response._id;
         const accessToken = generateAccessToken(userId, userData.role); // taoj access
         const newRefreshToken = generateRefreshToken(userId); // tao refresh

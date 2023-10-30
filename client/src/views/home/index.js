@@ -7,6 +7,7 @@ import ListProduct from './components/ListProduct';
 
 export default function Home({ navigation }) {
     const { smartphone, tablet, laptop, accessories } = useSelector((state) => state.product);
+    // console.log(smartphone, accessories, laptop, tablet);
     const [search, setSearch] = useState('');
     const data = [
         { title: 'Smartphone', product: [...smartphone] },
