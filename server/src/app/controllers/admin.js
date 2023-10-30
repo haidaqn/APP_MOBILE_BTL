@@ -99,7 +99,7 @@ const getUser = asyncHandler(async (req, res) => {
         queriesCommand = queriesCommand.select(fields);
     }
 
-    const page = +req?.query?.page || 1;
+    const page = +req?.query?.page + 1|| 1;
     const limit = +req?.query?.limit || process.env.LIMIT_PRODUCTS;
     const skip = (page - 1) * limit;
     queriesCommand = queriesCommand.select('-refreshToken -password');
@@ -107,10 +107,11 @@ const getUser = asyncHandler(async (req, res) => {
     //
     try {
         const response = await queriesCommand.exec();
+        const count = await User.find().countDocuments();
         return res.status(200).json({
             success: response ? true : false,
             users: response ? response.filter((user) => +user.role !== 2003) : 'cannot products...',
-            totalCount: response.length
+            totalCount: count
         });
     } catch (err) {
         throw new Error(err.message);

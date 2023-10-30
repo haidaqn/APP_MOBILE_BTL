@@ -152,6 +152,7 @@ export const Customer = () => {
     const columns = useMemo<MRT_ColumnDef<User>[]>(
         () => [
             { accessorKey: 'name', header: 'Tên người dùng' },
+            { accessorKey: 'mobile', header: 'Số điện thoại' },
             { accessorKey: 'email', header: 'Gmail' },
             {
                 accessorKey: 'isBlocked',
@@ -166,7 +167,7 @@ export const Customer = () => {
         ],
         []
     );
-    console.log(userSelect);
+    // console.log(userSelect);
     return (
         <Box sx={{ height: '100%' }}>
             <SettingMenu anchorRef={settingRef} open={open} setOpen={setOpen} />

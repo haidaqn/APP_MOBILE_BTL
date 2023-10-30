@@ -98,7 +98,7 @@ export const InvoicePaging = () => {
         setOpen((prevOpen) => !prevOpen);
     };
     const handleSelectRows = (row: any) => {
-        console.log(row);
+        // console.log(row);
         const idData = row.map((item: any) => item.original.id);
         (async () => {
             try {
@@ -125,11 +125,11 @@ export const InvoicePaging = () => {
             updatedSearchParams.set('globalFilter', globalFilter ?? '');
             updatedSearchParams.set('sorting', JSON.stringify(sorting ?? []));
 
-            // Update the location object with the new search parameters
             History.push({ search: updatedSearchParams.toString() });
             try {
                 const res: unknown = await adminApi.getPagingOrder(pagination);
                 const myOrder = res as RootInvoice;
+                console.log(myOrder.totalCount)
                 setData(myOrder.users);
                 setRowCount(myOrder.totalCount);
             } catch (error) {

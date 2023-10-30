@@ -22,10 +22,11 @@ const authSlice = createSlice({
         loginSuccess(state, action) {
             state.logging = false;
             state.actionAuth = 'Success';
-            state.currentUser.name = action.payload.name;
-            state.currentUser.email = action.payload.email;
-            state.currentUser.phone = action.payload.phone;
-            state.currentUser.address = action.payload.address;
+            // state.currentUser.name = action.payload.name;
+            // state.currentUser.email = action.payload.email;
+            // state.currentUser.phone = action.payload.phone;
+            // state.currentUser.address = action.payload.address;
+            state.currentUser = action.payload
         },
         loginFailed(state) {
             state.logging = false;

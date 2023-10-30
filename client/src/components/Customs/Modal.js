@@ -20,7 +20,7 @@ const ModalCustom = ({ modalVisible, setModalVisible }) => {
 
     const handleUpdateAddress = async () => {
         const response = await userApi.setAddress(address);
-        console.log(response)
+        // console.log(response)
         if (response.success === true) {
             dispatch(authActions.setAddress(address));
             setAddress('');
