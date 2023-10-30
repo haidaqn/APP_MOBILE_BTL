@@ -22,10 +22,10 @@ const authSlice = createSlice({
         loginSuccess(state, action) {
             state.logging = false;
             state.actionAuth = 'Success';
-            state.currentUser.address = action.payload.address;
-            state.currentUser.email = action.payload.email;
             state.currentUser.name = action.payload.name;
+            state.currentUser.email = action.payload.email;
             state.currentUser.phone = action.payload.phone;
+            state.currentUser.address = action.payload.address;
         },
         loginFailed(state) {
             state.logging = false;
@@ -39,10 +39,6 @@ const authSlice = createSlice({
         registerSuccess(state, action) {
             state.registering = false;
             state.actionAuth = 'Success';
-            state.currentUser.address = action.payload.address;
-            state.currentUser.email = action.payload.email;
-            state.currentUser.name = action.payload.name;
-            state.currentUser.phone = action.payload.phone;
         },
         registerFailed(state) {
             state.registering = false;

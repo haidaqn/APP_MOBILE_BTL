@@ -119,9 +119,6 @@ function RegisterPage({}) {
                                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                                     <Text className="text-blue-600 text-base underline">Bạn đã có tài khoản? Đăng nhập</Text>
                                 </TouchableOpacity>
-                                {/* <View className="flex flex-row justify-center mt-[2vh]">
-                                    <Copyright />
-                                </View> */}
                             </FormProvider>
                         </View>
                     </View>

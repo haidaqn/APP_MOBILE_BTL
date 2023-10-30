@@ -20,7 +20,6 @@ export default function Cart({ navigation }) {
 
     const fetchData = async (data) => {
         const response = await orderApi.createOrder(data);
-        console.log(response)
         if (response.success === true) {
             dispatch(cleanCart());
             setTimeout(() => {
@@ -42,7 +41,7 @@ export default function Cart({ navigation }) {
     };
 
     const handleCheckOut = async () => {
-        if (currentUser.name === undefined) {
+        if (currentUser?.name === undefined) {
             Toast.show({
                 type: 'info',
                 text1: 'Thông báo',
@@ -51,10 +50,10 @@ export default function Cart({ navigation }) {
             setTimeout(() => {
                 navigation.navigate('Login');
             }, 500);
-        } else if (currentUser.address === undefined || currentUser.address === 'Chưa có địa chỉ' ) setModalVisible(true);
+        } else if (currentUser?.address === undefined || currentUser?.address === 'Chưa có địa chỉ') setModalVisible(true);
         else fetchData(dataStore);
     };
-    
+
     return (
         <View className="bg-white w-full h-full relative">
             {dataStore.length > 0 ? (

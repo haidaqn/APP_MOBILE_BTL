@@ -7,7 +7,7 @@ import { authActions } from './AuthSlice';
 function* handleLogin(action) {
     try {
         const res = yield call(authApi.login, action.payload);
-        console.log(res)
+        console.log(res);
         if (res?.success === true) {
             yield put(authActions.loginSuccess(res.userData));
             yield call(AsyncStorage.setItem, StorageKeys.TOKEN, res.accessToken);
@@ -15,7 +15,7 @@ function* handleLogin(action) {
             yield call(AsyncStorage.setItem, StorageKeys.NAME_USER, res.userData.name);
             yield call(AsyncStorage.setItem, StorageKeys.EMAIL_USER, res.userData.email);
             yield call(AsyncStorage.setItem, StorageKeys.PHONE_USER, res.userData.mobile);
-            yield call(AsyncStorage.setItem, StorageKeys.ADDRESS_USER, 'Chưa có địa chỉ');
+            if (res.userData.address) yield call(AsyncStorage.setItem, StorageKeys.ADDRESS_USER, res.userData.address);
         } else {
             yield put(authActions.loginFailed());
             yield delay(100);
@@ -34,10 +34,13 @@ function* handleRegister(action) {
         const res = yield call(authApi.register, action.payload);
         console.log(res);
         yield put(authActions.registerSuccess(res.user));
-        yield call(AsyncStorage.setItem, StorageKeys.USER_ID, res.user._id);
-        yield call(AsyncStorage.setItem, StorageKeys.NAME_USER, res.user.name);
-        yield call(AsyncStorage.setItem, StorageKeys.EMAIL_USER, res.user.email);
-        yield call(AsyncStorage.setItem, StorageKeys.PHONE_USER, res.user.mobile);
+        // yield call(AsyncStorage.setItem, StorageKeys.TOKEN, res.accessToken);
+        // yield call(AsyncStorage.setItem, StorageKeys.USER_ID, res.userData._id);
+        // yield call(AsyncStorage.setItem, StorageKeys.NAME_USER, res.userData.name);
+        // yield call(AsyncStorage.setItem, StorageKeys.EMAIL_USER, res.userData.email);
+        // yield call(AsyncStorage.setItem, StorageKeys.PHONE_USER, res.userData.mobile);
+        // if (res.userData.address) yield call(AsyncStorage.setItem, StorageKeys.ADDRESS_USER, res.userData.address);
+
     } catch (error) {
         yield put(authActions.registerFailed());
         yield delay(100);

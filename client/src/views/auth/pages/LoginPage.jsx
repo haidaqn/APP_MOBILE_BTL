@@ -48,7 +48,7 @@ function LoginPage() {
         // });
         dispatch(authActions.login(data));
         // console.log(data);
-        navigation.navigate('AppLayout');
+        // navigation.navigate('AppLayout');
     };
     return (
         <SafeAreaView className="bg-white">
@@ -82,7 +82,7 @@ function LoginPage() {
                         </FormProvider>
                         <View className="flex justify-between flex-row mt-1">
                             <TouchableOpacity>
-                                <Text className="text-blue-600 text-base underline">Quên mật khẩu?</Text>
+                                <Text className="text-blue-600 text-base underline"></Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                                 <Text className="text-blue-600 text-base underline">Đăng ký ngay</Text>
